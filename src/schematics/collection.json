@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "main-init": {
+      "description": "主项目初始化",
+      "factory": "./main-init/index",
+      "schema": "./main-init/schema.json"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "MainInitSchematics",
+  "title": "主项目初始化",
+  "type": "object",
+  "properties": {
+    "dllName": {
+      "description": "链接库(lib)名称",
+      "type": "string",
+      "default": "dll",
+      "minLength": 1
+    },
+    "projectName": {
+      "description": "主项目的名字(为空读取默认值)",
+      "type": "string"
+    },
+    "webpackMode": {
+      "description": "使用暴露webpack配置的方式",
+      "default": "@angular-builders/custom-webpack",
+      "type": "string",
+      "x-prompt": {
+        "message": "使用暴露webpack配置的方式",
+        "type": "list",
+        "items": [
+          {
+            "value": "@angular-builders/custom-webpack",
+            "label": "@angular-builders/custom-webpack"
+          },
+          { "value": "", "label": "设置为空(暂时不支持其他)" }
+        ]
+      }
+    }
+  }
+}

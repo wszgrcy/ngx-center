@@ -4,7 +4,10 @@
   "description": "一个中心,多个......",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "schema.ts": "dtsgen -o ./src/schematics/schema.d.ts ./src/schematics/**/schema.json",
+    "build": "rm -rf ./dist && tsc && cpx -v \"./src/schematics/**/*.template\" ./dist/schematics && cpx -v \"./src/**/*.json\" ./dist && cpx -v ./package.json ./dist",
+    "toLink": "cd dist && npm link"
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,38 @@
   "dependencies": {
     "@angular-devkit/core": "^11.2.7",
     "@angular-devkit/schematics": "^11.2.7",
+    "@schematics/angular": "^11.2.7",
     "cyia-code-util": "^1.0.4",
+    "jsonc-parser": "^3.0.0",
     "typescript": "^4.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "cpx": "^1.5.0",
+    "dtsgenerator": "^3.7.1",
+    "ts-jest": "^26.5.4",
+    "jest": "^26.6.3",
+    "@types/jest": "^26.0.22"
+  },
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "schematics": "./schematics/collection.json",
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
