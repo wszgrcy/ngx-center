@@ -15,3 +15,12 @@ declare interface MainInitSchematics {
      */
     webpackMode?: string;
 }
+/**
+ * 子项目生成
+ */
+declare interface SubSchematics {
+    /**
+     * 主项目的名字(为空读取默认值)
+     */
+    name?: string;
+}

@@ -5,6 +5,11 @@
       "description": "主项目初始化",
       "factory": "./main-init/index",
       "schema": "./main-init/schema.json"
+    },
+    "sub": {
+      "description": "子项目生成",
+      "factory": "./sub/index",
+      "schema": "./sub/schema.json"
     }
   }
 }
