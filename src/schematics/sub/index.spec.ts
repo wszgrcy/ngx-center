@@ -40,5 +40,12 @@ describe('sub', () => {
     expect(
       (workspace.projects[subName].architect?.build?.options as any).vendorChunk
     ).toBe(false);
+    expect(workspace.projects[subName].architect?.build?.builder).toBe(
+      '@angular-builders/custom-webpack:browser'
+    );
+    expect(
+      (workspace.projects[subName].architect?.build?.options as any)
+        .customWebpackConfig
+    ).toBeTruthy();
   });
 });
