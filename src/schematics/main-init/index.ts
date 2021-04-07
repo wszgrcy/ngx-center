@@ -7,6 +7,7 @@ import {
 import { useClass } from '../../util/rule';
 import { AddPackageJsonCommand } from './add-package-json-command';
 import { AddPackageJsonDependency } from './add-package-json-dependency';
+import { AddTsconfigPaths } from './add-tsconfig-paths';
 import { AddTypings } from './add-typings';
 import { AddWebpackConfig } from './add-webpack-config';
 import { ChangeAngularJson } from './change-angular-json';
@@ -19,6 +20,7 @@ export default function (options: MainInitSchematics): Rule {
       useClass(ChangeAngularJson, options),
       useClass(AddWebpackConfig, options),
       useClass(AddTypings, options),
+      useClass(AddTsconfigPaths, options),
     ]);
   };
 }

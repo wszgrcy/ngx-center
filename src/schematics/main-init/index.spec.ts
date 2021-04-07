@@ -67,4 +67,17 @@ describe('main-init', () => {
       tree.read('projects/main-project/src/typings.d.ts')?.toString()
     ).toContain('loadRemoteModule');
   });
+  it('应该添加主项目重映射', async () => {
+    let tree = await factory.runSchematic('main-init');
+    let content = tree.read('tsconfig.json')?.toString();
+    expect(content).toContain('@center-main/*')
+    expect(content).toContain('projects/main-project/src/*')
+  });
+  it('应该添加主项目重映射,如果存在paths配置', async () => {
+    factory.getTree().overwrite('tsconfig.json', `{"compilerOptions":{"paths":{"a":[""]}}}`)
+    let tree = await factory.runSchematic('main-init');
+    let content = tree.read('tsconfig.json')?.toString();
+    expect(content).toContain('@center-main/*')
+    expect(content).toContain('projects/main-project/src/*')
+  });
 });
