@@ -7,7 +7,8 @@ describe('main-init', () => {
   let factory: TestWorkspaceFactory;
   beforeEach(async () => {
     factory = createTestWorkspaceFactory();
-    factory.create();
+    await factory.create();
+    await factory.addApplication({ name: 'mainProject' });
   });
 
   it('应该修改package.json命令', async () => {
@@ -36,14 +37,12 @@ describe('main-init', () => {
     expect(main).toBeTruthy();
   });
   it('应该修改angularJson', async () => {
-    await factory.addApplication({ name: 'mainProject' });
     let tree = await factory.runSchematic('main-init');
     let config = tree.read('angular.json')!.toString();
     expect(config).toContain('center-dll');
     expect(config).toContain('@angular-builders/custom-webpack:browser');
   });
   it(`应该在angular.json不存在'@angular-builders/custom-webpack:browser',当'webpackMode'为空`, async () => {
-    await factory.addApplication({ name: 'mainProject' });
     let tree = await factory.runSchematic('main-init', { webpackMode: '' });
     let config = tree.read('angular.json')!.toString();
     expect(config).toContain('center-dll');
@@ -60,5 +59,12 @@ describe('main-init', () => {
       }
     }
     expect(toThrow).toBeTruthy();
+  });
+  it('应该添加类型定义', async () => {
+    let tree = await factory.runSchematic('main-init');
+    expect(tree.exists('projects/main-project/src/typings.d.ts')).toBe(true);
+    expect(
+      tree.read('projects/main-project/src/typings.d.ts')?.toString()
+    ).toContain('loadRemoteModule');
   });
 });
