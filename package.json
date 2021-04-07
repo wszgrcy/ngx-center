@@ -7,7 +7,7 @@
     "test": "jest",
     "schema.ts": "dtsgen -o ./src/schematics/schema.d.ts ./src/schematics/**/schema.json",
     "build": "rm -rf ./dist && tsc && cpx -v \"./src/schematics/**/*.template\" ./dist/schematics && cpx -v \"./src/**/*.json\" ./dist && cpx -v ./package.json ./dist",
-    "toLink": "cd dist && npm link"
+    "toLink": "cd dist && yarn link"
   },
   "repository": {
     "type": "git",
