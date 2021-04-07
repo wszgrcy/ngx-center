@@ -20,7 +20,15 @@ declare interface MainInitSchematics {
  */
 declare interface SubSchematics {
     /**
-     * 主项目的名字(为空读取默认值)
+     * 子项目的名字
      */
-    name?: string;
+    name: string;
+    /**
+     * 主项目的名字
+     */
+    mainProjectName?: string;
+    /**
+     * 使用暴露webpack配置的方式
+     */
+    webpackMode?: string;
 }

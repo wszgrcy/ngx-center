@@ -32,7 +32,7 @@ export class ChangeApplication implements RunSchematics {
       );
 
       return mergeWith(
-        apply(url('./template'), [
+        apply(url('./template/application'), [
           template({}),
           renameTemplateFiles(),
           move(

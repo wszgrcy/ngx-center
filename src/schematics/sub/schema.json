@@ -12,9 +12,27 @@
         "index": 0
       },
       "x-prompt": "请输入子项目的名字"
+    },
+    "mainProjectName": {
+      "description": "主项目的名字",
+      "type": "string"
+    },
+    "webpackMode": {
+      "description": "使用暴露webpack配置的方式",
+      "default": "@angular-builders/custom-webpack",
+      "type": "string",
+      "x-prompt": {
+        "message": "使用暴露webpack配置的方式",
+        "type": "list",
+        "items": [
+          {
+            "value": "@angular-builders/custom-webpack",
+            "label": "@angular-builders/custom-webpack"
+          },
+          { "value": "", "label": "设置为空(暂时不支持其他)" }
+        ]
+      }
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": ["name"]
 }
