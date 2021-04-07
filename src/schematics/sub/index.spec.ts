@@ -48,4 +48,12 @@ describe('sub', () => {
         .customWebpackConfig
     ).toBeTruthy();
   });
+  it('应该存在package.json子项目命令', async () => {
+    let subName = 'sub1';
+
+    let tree = await factory.runSchematic('sub', { name: subName });
+    let content = tree.read('package.json')?.toString();
+    expect(content).toContain(`build:${subName}`);
+    expect(content).toContain(`ng build ${subName}`);
+  });
 });

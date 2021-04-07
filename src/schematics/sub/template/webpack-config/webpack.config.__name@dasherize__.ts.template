@@ -16,7 +16,7 @@ export default (config: webpack.Configuration, options) => {
     })
   );
   config.optimization.runtimeChunk = false;
-  config.output.filename = '<%= dasherize(name) %>';
+  config.output.filename = '<%= dasherize(name) %>.js';
   config.plugins.push(new RemoteModuleMainTemplatePlugin());
   config.plugins.push(
     new NgRedirectModulePlugin(
