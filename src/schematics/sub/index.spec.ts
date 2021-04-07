@@ -10,7 +10,7 @@ describe('sub', () => {
 
   beforeEach(async () => {
     factory = createTestWorkspaceFactory();
-    factory.create();
+    await factory.create();
   });
   it('应该修改应用', async () => {
     let subName = 'sub1';
