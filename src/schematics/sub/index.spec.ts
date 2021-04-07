@@ -5,7 +5,7 @@ import {
 import { strings } from '@angular-devkit/core';
 import { WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
 
-fdescribe('sub', () => {
+describe('sub', () => {
   let factory: TestWorkspaceFactory;
 
   beforeEach(async () => {
