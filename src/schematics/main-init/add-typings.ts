@@ -8,7 +8,8 @@ declare function loadRemoteModule(
   url: string,
   moduleName?: string
 ): Promise<any>; 
-    `;
+declare function exportNgNamed(key: string, instance: any): void;
+`;
   constructor(private options: MainInitSchematics) {}
   run() {
     return (tree: Tree, context: SchematicContext) => {

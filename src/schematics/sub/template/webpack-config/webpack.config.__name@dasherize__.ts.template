@@ -2,7 +2,7 @@ import * as webpack from 'webpack';
 import * as path from 'path';
 import {
   RemoteModuleMainTemplatePlugin,
-  NgRedirectModulePlugin,
+  NgNamedImportPlugin,
 } from 'webpack-ng-dll-plugin';
 export default (config: webpack.Configuration, options) => {
   delete options.index;
@@ -19,9 +19,8 @@ export default (config: webpack.Configuration, options) => {
   config.output.filename = '<%= dasherize(name) %>.js';
   config.plugins.push(new RemoteModuleMainTemplatePlugin());
   config.plugins.push(
-    new NgRedirectModulePlugin(
-      [path.join(__dirname, '<%= sourceRoot %>')],
-      'mainModule'
+    new NgNamedImportPlugin(
+      [path.join(__dirname, '<%= sourceRoot %>')]
     )
   );
   return config;
