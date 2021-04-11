@@ -17,6 +17,9 @@ export class AddPackageJsonCommand implements RunSchematics {
       content.scripts[
         `build:${this.options.name}`
       ] = `ng build ${this.options.name}`;
+      content.scripts[
+        `start:${this.options.name}`
+      ]=`ng serve ${this.options.name}`
       tree.overwrite(fileName, JSON.stringify(content, undefined, 2));
     };
   }

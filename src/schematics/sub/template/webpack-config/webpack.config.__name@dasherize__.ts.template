@@ -5,7 +5,6 @@ import {
   NgNamedImportPlugin,
 } from 'webpack-ng-dll-plugin';
 export default (config: webpack.Configuration, options) => {
-  delete options.index;
 
   const entry: any = config.entry;
   config.entry = entry.main;

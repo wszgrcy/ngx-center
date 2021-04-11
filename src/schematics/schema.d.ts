@@ -31,4 +31,8 @@ declare interface SubSchematics {
      * 使用暴露webpack配置的方式
      */
     webpackMode?: string;
+    /**
+     * 开发端口
+     */
+    port: number;
 }
