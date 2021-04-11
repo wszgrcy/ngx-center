@@ -1,3 +1,4 @@
+import { strings } from '@angular-devkit/core';
 import {
   apply,
   mergeWith,
@@ -23,7 +24,10 @@ export class ChangeApplication implements RunSchematics {
       tree.delete(
         `${workspace.newProjectRoot}/${this.options.name}/src/app/app.module.ts`
       );
-
+      tree.overwrite(
+        `${workspace.newProjectRoot}/${this.options.name}/src/app/app.component.html`,
+        `<p>${strings.dasherize(this.options.name)} works!</p>`
+      );
       tree.delete(
         `${workspace.newProjectRoot}/${this.options.name}/src/favicon.ico`
       );

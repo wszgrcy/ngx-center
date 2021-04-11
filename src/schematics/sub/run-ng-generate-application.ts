@@ -14,6 +14,7 @@ export class RunNgGenerateApplication implements RunSchematics {
         name: `${this.options.name}`,
         style: 'scss',
         skipInstall: true,
+        routing: false,
       });
     };
   }
