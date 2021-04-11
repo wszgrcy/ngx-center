@@ -1,7 +1,17 @@
 import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { RunSchematics } from '../../types';
-import { WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
+import {
+  ProjectType,
+  WorkspaceSchema,
+  WorkspaceTargets,
+} from '@schematics/angular/utility/workspace-models';
+import * as path from 'path';
+import { strings } from '@angular-devkit/core';
+
 export class ChangeAngularJson implements RunSchematics {
+  readonly CENTER_MAIN = 'center-main';
+  readonly CENTER_DLL = 'center-dll';
+
   constructor(private options: MainInitSchematics) {}
   run() {
     return (tree: Tree, context: SchematicContext) => {
@@ -11,49 +21,70 @@ export class ChangeAngularJson implements RunSchematics {
       }
       let projectName: string =
         this.options.projectName || workspace.defaultProject!;
+      let architect: WorkspaceTargets<ProjectType.Application> = workspace
+        .projects[projectName].architect!;
       if (this.options.webpackMode === '@angular-builders/custom-webpack') {
-        this['@angular-builders/custom-webpack'](workspace);
+        this['@angular-builders/custom-webpack'](architect);
       }
+      let projectBuildConfig = architect?.build?.configurations;
+      if (projectBuildConfig) {
+        projectBuildConfig[this.CENTER_DLL] = {
+          outputPath: `dist/${this.CENTER_DLL}`,
+          vendorChunk: false,
+          assets: [],
+          styles: [],
 
-      if (workspace?.projects[projectName]?.architect?.build?.configurations) {
-        workspace!.projects![projectName]!.architect!.build!.configurations![
-          'center-dll'
-        ] = {
-          outputPath: 'dist/center-dll',
+          ...projectBuildConfig[this.CENTER_DLL],
+        };
+        projectBuildConfig[this.CENTER_MAIN] = {
           vendorChunk: false,
-          ...workspace!.projects![projectName]!.architect!.build!
-            .configurations!['center-dll'],
-        } as any;
-        workspace!.projects![projectName]!.architect!.build!.configurations![
-          'center-main'
-        ] = {
-          vendorChunk: false,
-          ...workspace!.projects![projectName]!.architect!.build!
-            .configurations!['center-main'],
-        } as any;
+          index: {
+            input: path.posix.join(
+              path.dirname(architect?.build?.options.index!),
+              `index.${this.CENTER_DLL}.html`
+            ),
+            output: path.basename(architect?.build?.options.index!),
+          } as any,
+          assets: [
+            ...(architect?.build?.options.assets || []),
+            {
+              glob: `${strings.dasherize(this.options.dllName!)}.js`,
+              input: `./dist/${this.CENTER_DLL}`,
+              output: './',
+            },
+          ],
+          ...projectBuildConfig[this.CENTER_MAIN],
+        };
       }
-      tree.overwrite('angular.json', JSON.stringify(workspace,undefined,2));
+      if (architect?.serve) {
+        architect.serve.configurations![this.CENTER_MAIN] = {
+          browserTarget: `${architect.serve.options.browserTarget
+            .split(':')
+            .slice(0, 2)
+            .join(':')}:${this.CENTER_MAIN}`,
+        };
+      }
+      tree.overwrite('angular.json', JSON.stringify(workspace, undefined, 2));
     };
   }
-  '@angular-builders/custom-webpack'(workspace: WorkspaceSchema) {
-    let projectName: string =
-      this.options.projectName || workspace.defaultProject!;
-    if (workspace?.projects[projectName]?.architect?.build) {
-      workspace!.projects![
-        projectName
-      ]!.architect!.build!.builder = '@angular-builders/custom-webpack:browser' as any;
+  '@angular-builders/custom-webpack'(
+    architect: WorkspaceTargets<ProjectType.Application>
+  ) {
+    if (architect?.build) {
+      architect!.build!.builder = '@angular-builders/custom-webpack:browser' as any;
     }
-    if (workspace?.projects[projectName]?.architect?.build?.configurations) {
-      workspace!.projects![projectName]!.architect!.build!.configurations![
-        'center-dll'
-      ] = {
-        customWebpackConfig: { path: './webpack.config.center-dll.ts' },
+    if (architect?.build?.configurations) {
+      architect!.build!.configurations![this.CENTER_DLL] = {
+        customWebpackConfig: { path: `./webpack.config.${this.CENTER_DLL}.ts` },
       } as any;
-      workspace!.projects![projectName]!.architect!.build!.configurations![
-        'center-main'
-      ] = {
-        customWebpackConfig: { path: './webpack.config.center-main.ts' },
+      architect!.build!.configurations![this.CENTER_MAIN] = {
+        customWebpackConfig: {
+          path: `./webpack.config.${this.CENTER_MAIN}.ts`,
+        },
       } as any;
+    }
+    if (architect.serve) {
+      architect.serve.builder = '@angular-builders/custom-webpack:dev-server' as any;
     }
   }
 }

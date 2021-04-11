@@ -10,11 +10,13 @@ export class AddPackageJsonCommand implements RunSchematics {
       if (tree.exists(fileName)) {
         content = JSON.parse(tree.read(fileName)?.toString()!);
       } else {
-        throw `${fileName} not exist!`
+        throw `${fileName} not exist!`;
       }
       content.scripts = content.scripts || {};
+      content.scripts['start:center-main'] =
+        'ng serve --configuration center-main';
       content.scripts['build:center-main'] =
-        'ng build --configuration center-main';
+      'ng build --configuration center-main';
       content.scripts['build:center-dll'] =
         'ng build --configuration center-dll';
       tree.overwrite(fileName, JSON.stringify(content, undefined, 2));

@@ -5,6 +5,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { useClass } from '../../util/rule';
+import { AddIndexCenterDllHtml } from './add-index-center-dll-html';
 import { AddPackageJsonCommand } from './add-package-json-command';
 import { AddPackageJsonDependency } from './add-package-json-dependency';
 import { AddTsconfigPaths } from './add-tsconfig-paths';
@@ -21,6 +22,7 @@ export default function (options: MainInitSchematics): Rule {
       useClass(AddWebpackConfig, options),
       useClass(AddTypings, options),
       useClass(AddTsconfigPaths, options),
+      useClass(AddIndexCenterDllHtml, options),
     ]);
   };
 }

@@ -2,7 +2,8 @@ import {
   createTestWorkspaceFactory,
   TestWorkspaceFactory,
 } from '../../test-util';
-
+import { strings } from '@angular-devkit/core';
+import { createCssSelectorForHtml } from 'cyia-code-util';
 describe('main-init', () => {
   let factory: TestWorkspaceFactory;
   beforeEach(async () => {
@@ -15,6 +16,8 @@ describe('main-init', () => {
     let tree = await factory.runSchematic('main-init');
     let config = tree.read('package.json')!.toString();
     expect(config).toContain('build:center-main');
+    expect(config).toContain('start:center-main');
+    expect(config).toContain('ng serve --configuration center-main');
   });
   it('应该修改package.json依赖', async () => {
     let tree = await factory.runSchematic('main-init');
@@ -41,6 +44,7 @@ describe('main-init', () => {
     let config = tree.read('angular.json')!.toString();
     expect(config).toContain('center-dll');
     expect(config).toContain('@angular-builders/custom-webpack:browser');
+    expect(config).toContain('@angular-builders/custom-webpack:dev-server');
   });
   it(`应该在angular.json不存在'@angular-builders/custom-webpack:browser',当'webpackMode'为空`, async () => {
     let tree = await factory.runSchematic('main-init', { webpackMode: '' });
@@ -70,14 +74,28 @@ describe('main-init', () => {
   it('应该添加主项目重映射', async () => {
     let tree = await factory.runSchematic('main-init');
     let content = tree.read('tsconfig.json')?.toString();
-    expect(content).toContain('@center-main/*')
-    expect(content).toContain('projects/main-project/src/*')
+    expect(content).toContain('@center-main/*');
+    expect(content).toContain('projects/main-project/src/*');
   });
   it('应该添加主项目重映射,如果存在paths配置', async () => {
-    factory.getTree().overwrite('tsconfig.json', `{"compilerOptions":{"paths":{"a":[""]}}}`)
+    factory
+      .getTree()
+      .overwrite('tsconfig.json', `{"compilerOptions":{"paths":{"a":[""]}}}`);
     let tree = await factory.runSchematic('main-init');
     let content = tree.read('tsconfig.json')?.toString();
-    expect(content).toContain('@center-main/*')
-    expect(content).toContain('projects/main-project/src/*')
+    expect(content).toContain('@center-main/*');
+    expect(content).toContain('projects/main-project/src/*');
+  });
+  it('应该添加index.center-dll.html', async () => {
+    let dllName = 'mainTest';
+    let tree = await factory.runSchematic('main-init', { dllName });
+    let angularJsonContent = tree.read('angular.json')?.toString();
+    expect(angularJsonContent).toContain(`${strings.dasherize(dllName)}.js`);
+    let htmlContent=tree.read('projects/main-project/src/index.center-dll.html')?.toString()!
+    expect(htmlContent).toContain(`./${strings.dasherize(dllName)}.js`)
+    let selector=createCssSelectorForHtml(htmlContent)
+    expect(selector.queryOne('head')).toBeTruthy()
+    expect(selector.queryOne('script')).toBeTruthy()
+    
   });
 });
