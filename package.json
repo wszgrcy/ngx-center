@@ -1,12 +1,12 @@
 {
   "name": "ngx-center",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "一个中心,多个......",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "schema.ts": "dtsgen -o ./src/schematics/schema.d.ts ./src/schematics/**/schema.json",
-    "build": "rimraf ./dist && tsc && cpx -v \"./src/schematics/**/*.template\" ./dist/schematics && cpx -v \"./src/**/*.json\" ./dist && cpx -v ./package.json ./dist",
+    "build": "rimraf ./dist && tsc && cpx -v \"./src/schematics/**/*.template\" ./dist/schematics && cpx -v \"./src/**/*.json\" ./dist && cpx -v ./package.json ./dist && cpx -v ./README.md ./dist",
     "toLink": "cd dist && yarn link"
   },
   "repository": {
