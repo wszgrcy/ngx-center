@@ -4,6 +4,8 @@ import {
   RemoteModuleMainTemplatePlugin,
   NgNamedImportPlugin,
 } from 'webpack-ng-dll-plugin';
+import { BootstrapAssetsPlugin } from 'webpack-bootstrap-assets-plugin';
+
 export default (config: webpack.Configuration, options) => {
 
   const entry: any = config.entry;
@@ -14,13 +16,19 @@ export default (config: webpack.Configuration, options) => {
       manifest: require('./dist/manifest.json'),
     })
   );
-  config.optimization.runtimeChunk = false;
-  config.output.filename = '<%= dasherize(name) %>.js';
+  config.output.jsonpFunction = '<%= camelize(name) %>Jsonp'
+  config.output.filename = '<%= dasherize(name) %>.[name].js';
   config.plugins.push(new RemoteModuleMainTemplatePlugin());
   config.plugins.push(
     new NgNamedImportPlugin(
       [path.join(__dirname, '<%= sourceRoot %>')]
     )
   );
+  // 不同环境需要不同的部署地址,或者获取到资源清单后手动加部署地址,使加载生效
+  config.plugins.push(
+    new BootstrapAssetsPlugin({
+      deployUrl: 'http://0.0.0.0:<%= port %>/',
+    })
+  )
   return config;
 };
