@@ -15,7 +15,12 @@ export class AddPackageJsonDependency implements RunSchematics {
         {
           type: NodeDependencyType.Dev,
           name: 'webpack-ng-dll-plugin',
-          version: '2.0.3',
+          version: '2.0.7',
+        },
+        {
+          type: NodeDependencyType.Dev,
+          name: 'webpack-bootstrap-assets-plugin',
+          version: '1.0.8',
         },
       ].forEach((dependency) => addPackageJsonDependency(tree, dependency));
       if (this.config.webpackMode === '@angular-builders/custom-webpack') {
