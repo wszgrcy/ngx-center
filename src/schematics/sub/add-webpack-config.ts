@@ -25,6 +25,7 @@ export class AddWebpackConfig implements RunSchematics {
       return mergeWith(
         apply(url('./template/webpack-config'), [
           template({
+            port: this.options.port,
             name: this.options.name,
             sourceRoot: workspace.projects[mainProjectName].sourceRoot,
             ...strings,
