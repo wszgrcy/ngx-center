@@ -47,6 +47,10 @@ export class ChangeApplication implements RunSchematics {
             './main.ts',
             `${workspace.newProjectRoot}/${this.options.name}/src/main.ts`
           ),
+          move(
+            './typings.d.ts',
+            `${workspace.newProjectRoot}/${this.options.name}/src/typings.d.ts`
+          ),
         ])
       );
     };
