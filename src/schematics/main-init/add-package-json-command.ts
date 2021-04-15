@@ -17,8 +17,12 @@ export class AddPackageJsonCommand implements RunSchematics {
         'ng serve --configuration center-main';
       content.scripts['build:center-main'] =
       'ng build --configuration center-main';
+      content.scripts['build:center-main:prod'] =
+      'ng build --configuration center-main-prod';
       content.scripts['build:center-dll'] =
         'ng build --configuration center-dll';
+      content.scripts['build:center-dll:prod'] =
+        'ng build --configuration center-dll-prod';
       tree.overwrite(fileName, JSON.stringify(content, undefined, 2));
     };
   }

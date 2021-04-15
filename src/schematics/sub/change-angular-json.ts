@@ -24,6 +24,8 @@ export class ChangeAngularJson implements RunSchematics {
         (architect!.build!.options as any).vendorChunk = false;
         (architect!.build!
           .options as any).deployUrl = `http://127.0.0.1:${this.options.port}/`;
+        (architect.build.configurations
+          ?.production as any).deployUrl = `${this.options.name}/`;
       }
       if (architect?.serve?.options) {
         (architect.serve.options as any).port = +this.options.port;

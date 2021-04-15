@@ -36,6 +36,15 @@ export class ChangeAngularJson implements RunSchematics {
 
           ...projectBuildConfig[this.CENTER_DLL],
         };
+        projectBuildConfig[`${this.CENTER_DLL}-prod`] = {
+          ...projectBuildConfig[this.CENTER_DLL],
+          optimization: true,
+          outputHashing: 'all',
+          sourceMap: false,
+          namedChunks: false,
+          extractLicenses: true,
+          buildOptimizer: true,
+        };
         projectBuildConfig[this.CENTER_MAIN] = {
           vendorChunk: false,
           index: {
@@ -53,6 +62,10 @@ export class ChangeAngularJson implements RunSchematics {
               output: './',
             },
           ],
+          ...projectBuildConfig[this.CENTER_MAIN],
+        };
+        projectBuildConfig[`${this.CENTER_MAIN}-prod`] = {
+          ...projectBuildConfig['production'],
           ...projectBuildConfig[this.CENTER_MAIN],
         };
       }
