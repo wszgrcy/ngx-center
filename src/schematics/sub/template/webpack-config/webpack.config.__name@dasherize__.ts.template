@@ -27,7 +27,7 @@ export default (config: webpack.Configuration, options) => {
   // 不同环境需要不同的部署地址,或者获取到资源清单后手动加部署地址,使加载生效
   config.plugins.push(
     new BootstrapAssetsPlugin({
-      deployUrl: 'http://127.0.0.1:<%= port %>/',
+      deployUrl: options.deployUrl,
     })
   )
   return config;
