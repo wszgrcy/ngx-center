@@ -22,10 +22,12 @@ export class ChangeAngularJson implements RunSchematics {
 
       if (architect?.build?.options) {
         (architect!.build!.options as any).vendorChunk = false;
-        (architect!.build!.options as any).deployUrl = `http://127.0.0.1:${this.options.port}/`;
+        (architect!.build!
+          .options as any).deployUrl = `http://127.0.0.1:${this.options.port}/`;
       }
       if (architect?.serve?.options) {
         (architect.serve.options as any).port = +this.options.port;
+        (architect.serve.options as any).servePath = `/`;
       }
       architect!.build!.options.index = '';
       tree.overwrite('angular.json', JSON.stringify(workspace, undefined, 2));
