@@ -14,6 +14,10 @@ declare interface MainInitSchematics {
      * 使用暴露webpack配置的方式
      */
     webpackMode?: string;
+    /**
+     * 将webpack提升到根依赖(yarn会默认提升)
+     */
+    webpackPromotion?: boolean;
 }
 /**
  * 子项目生成

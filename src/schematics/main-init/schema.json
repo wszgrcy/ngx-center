@@ -29,6 +29,11 @@
           { "value": "", "label": "设置为空(暂时不支持其他)" }
         ]
       }
+    },
+    "webpackPromotion": {
+      "description": "将webpack提升到根依赖(yarn会默认提升)",
+      "default": true,
+      "type": "boolean"
     }
   }
 }
