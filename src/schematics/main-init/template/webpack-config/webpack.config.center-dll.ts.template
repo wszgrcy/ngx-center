@@ -1,6 +1,6 @@
 import * as webpack from 'webpack';
 import * as path from 'path';
-import { setNgDllPlugin,RemoteModuleStartupPlugin,RemoteModuleManifestStartupPlugin,NgNamedPlugin } from 'webpack-ng-dll-plugin';
+import { setNgDllPlugin,RemoteModuleStartupMainTemplatePlugin,RemoteModuleManifestStartupMainTemplatePlugin,NgNamedMainTemplatePlugin } from 'webpack-ng-dll-plugin';
 export default (config: webpack.Configuration, options) => {
   setNgDllPlugin(
     config,
@@ -19,9 +19,9 @@ export default (config: webpack.Configuration, options) => {
     },
     options
   );
-  config.plugins.push(new RemoteModuleStartupPlugin());
-  config.plugins.push(new RemoteModuleManifestStartupPlugin());
-  config.plugins.push(new NgNamedPlugin());
+  config.plugins.push(new RemoteModuleStartupMainTemplatePlugin());
+  config.plugins.push(new RemoteModuleManifestStartupMainTemplatePlugin());
+  config.plugins.push(new NgNamedMainTemplatePlugin());
 
   return config;
 };
