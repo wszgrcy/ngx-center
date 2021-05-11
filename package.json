@@ -1,6 +1,6 @@
 {
   "name": "ngx-center",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "一个中心,多个......",
   "main": "index.js",
   "scripts": {
