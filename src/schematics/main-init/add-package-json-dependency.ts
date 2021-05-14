@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { RunSchematics } from '../../types';
 import {
   addPackageJsonDependency,
+  getPackageJsonDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -59,10 +60,18 @@ export class AddPackageJsonDependency implements RunSchematics {
         },
       ].forEach((dependency) => addPackageJsonDependency(tree, dependency));
       if (this.config.webpackMode === '@angular-builders/custom-webpack') {
+        let dependency = getPackageJsonDependency(
+          tree,
+          '@angular-devkit/build-angular'
+        );
+        let version = '^11.1.1';
+        if (/$(~|\^)?0.10/.test(dependency!.version)) {
+          version = '^10.0.1';
+        }
         addPackageJsonDependency(tree, {
           type: NodeDependencyType.Dev,
           name: '@angular-builders/custom-webpack',
-          version: '^11.1.1',
+          version: version,
         });
       }
       if (this.config.webpackPromotion) {
