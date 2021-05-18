@@ -22,16 +22,21 @@ export class ChangeAngularJson implements RunSchematics {
 
       if (architect?.build?.options) {
         (architect!.build!.options as any).vendorChunk = false;
-        (architect!.build!
-          .options as any).deployUrl = `http://127.0.0.1:${this.options.port}/`;
-        (architect.build.configurations
-          ?.production as any).deployUrl = `${this.options.name}/`;
+        (
+          architect!.build!.options as any
+        ).deployUrl = `http://127.0.0.1:${this.options.port}/`;
+        (
+          architect.build.configurations?.production as any
+        ).deployUrl = `${this.options.name}/`;
       }
       if (architect?.serve?.options) {
         (architect.serve.options as any).port = +this.options.port;
         (architect.serve.options as any).servePath = `/`;
       }
       architect!.build!.options.index = '';
+      architect!.build!.options.polyfills = '';
+      architect!.build!.options.styles = [];
+
       tree.overwrite('angular.json', JSON.stringify(workspace, undefined, 2));
     };
   }
@@ -41,16 +46,19 @@ export class ChangeAngularJson implements RunSchematics {
   ) {
     let projectName: string = this.options.name;
     if (architect?.build) {
-      architect!.build!.builder = '@angular-builders/custom-webpack:browser' as any;
+      architect!.build!.builder =
+        '@angular-builders/custom-webpack:browser' as any;
     }
     if (architect?.build?.configurations) {
       (architect!.build!.options as any).customWebpackConfig = {
         path: `./webpack.config.${strings.dasherize(this.options.name)}.ts`,
       };
     }
-    architect!.serve!.builder = '@angular-builders/custom-webpack:dev-server' as any;
+    architect!.serve!.builder =
+      '@angular-builders/custom-webpack:dev-server' as any;
 
-    (architect?.serve
-      ?.options as any).publicHost = `0.0.0.0:${this.options.port}`;
+    (
+      architect?.serve?.options as any
+    ).publicHost = `0.0.0.0:${this.options.port}`;
   }
 }

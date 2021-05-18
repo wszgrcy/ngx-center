@@ -22,6 +22,9 @@ describe('sub', () => {
     expect(
       tree.read(`projects/${subName}/src/app/app.module.ts`)?.toString()
     ).toContain('RouterModule.forChild');
+    expect(
+      tree.read(`projects/${subName}/tsconfig.app.json`)?.toString()!
+    ).not.toContain('polyfills');
   });
   it('应该添加webpack配置', async () => {
     let subName = 'sub1';

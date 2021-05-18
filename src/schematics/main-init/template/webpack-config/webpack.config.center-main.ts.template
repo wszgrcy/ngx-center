@@ -7,6 +7,6 @@ export default (config: webpack.Configuration) => {
       manifest: require('./dist/manifest.json'),
     })
   );
-  config.module.rules.unshift({test:/\.tsx?/,use:'webpack-ng-dll-plugin/dist/ng-named/loader/import'})
+  config.module.rules.unshift({test:/\.tsx?/,use:'webpack-ng-dll-plugin/dist/ng-named/loader/export'})
   return config;
 };

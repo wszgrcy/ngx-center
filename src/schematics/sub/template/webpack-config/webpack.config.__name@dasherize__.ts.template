@@ -12,7 +12,7 @@ export default (config: webpack.Configuration, options) => {
     use: 'webpack-ng-dll-plugin/dist/ng-named/loader/import',
   });
   const entry: any = config.entry;
-  config.entry = entry.main;
+  config.entry = {main:entry.main};
   config.plugins.push(
     new webpack.DllReferencePlugin({
       context: path.resolve(__dirname),

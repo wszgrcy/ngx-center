@@ -21,8 +21,8 @@ export class ChangeAngularJson implements RunSchematics {
       }
       let projectName: string =
         this.options.projectName || workspace.defaultProject!;
-      let architect: WorkspaceTargets<ProjectType.Application> = workspace
-        .projects[projectName].architect!;
+      let architect: WorkspaceTargets<ProjectType.Application> =
+        workspace.projects[projectName].architect!;
       if (this.options.webpackMode === '@angular-builders/custom-webpack') {
         this['@angular-builders/custom-webpack'](architect);
       }
@@ -33,7 +33,7 @@ export class ChangeAngularJson implements RunSchematics {
           vendorChunk: false,
           assets: [],
           styles: [],
-
+          scripts: [],
           ...projectBuildConfig[this.CENTER_DLL],
         };
         projectBuildConfig[`${this.CENTER_DLL}-prod`] = {
@@ -84,7 +84,8 @@ export class ChangeAngularJson implements RunSchematics {
     architect: WorkspaceTargets<ProjectType.Application>
   ) {
     if (architect?.build) {
-      architect!.build!.builder = '@angular-builders/custom-webpack:browser' as any;
+      architect!.build!.builder =
+        '@angular-builders/custom-webpack:browser' as any;
     }
     if (architect?.build?.configurations) {
       architect!.build!.configurations![this.CENTER_DLL] = {
@@ -97,7 +98,8 @@ export class ChangeAngularJson implements RunSchematics {
       } as any;
     }
     if (architect.serve) {
-      architect.serve.builder = '@angular-builders/custom-webpack:dev-server' as any;
+      architect.serve.builder =
+        '@angular-builders/custom-webpack:dev-server' as any;
     }
   }
 }

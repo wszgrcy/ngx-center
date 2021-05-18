@@ -11,7 +11,7 @@ import {
 } from '@angular-devkit/schematics';
 import { WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
 import { RunSchematics } from '../../types';
-
+import { findNodeAtLocation, parseTree } from 'jsonc-parser';
 export class ChangeApplication implements RunSchematics {
   constructor(private options: SubSchematics) {}
   run() {
@@ -34,7 +34,7 @@ export class ChangeApplication implements RunSchematics {
       tree.delete(
         `${workspace.newProjectRoot}/${this.options.name}/src/index.html`
       );
-
+      this.changeTsconfig(tree, workspace);
       return mergeWith(
         apply(url('./template/application'), [
           template({}),
@@ -54,5 +54,32 @@ export class ChangeApplication implements RunSchematics {
         ])
       );
     };
+  }
+  changeTsconfig(tree: Tree, workspace: any) {
+    let tsconfigPath = `${workspace.newProjectRoot}/${this.options.name}/tsconfig.app.json`;
+    let content = tree.read(tsconfigPath)?.toString()!;
+    let node = parseTree(content)!;
+    let filesNode = findNodeAtLocation(node, ['files']);
+    let preNodeIndex = 0;
+    let polyFillsNode = filesNode?.children?.find((item, i) => {
+      preNodeIndex = i - 1;
+      return item.value.includes('polyfills');
+    });
+    let recorder = tree.beginUpdate(tsconfigPath);
+    let start =
+      preNodeIndex > 0
+        ? filesNode!.children![preNodeIndex].offset +
+          filesNode!.children![preNodeIndex].length
+        : polyFillsNode?.offset!;
+    let length =
+      preNodeIndex > 0
+        ? polyFillsNode?.length! +
+          polyFillsNode?.offset! -
+          filesNode!.children![preNodeIndex].offset -
+          filesNode!.children![preNodeIndex].length
+        : polyFillsNode?.length!;
+    recorder.remove(start, length);
+    tree.commitUpdate(recorder);
+    content = tree.read(tsconfigPath)?.toString()!;
   }
 }
