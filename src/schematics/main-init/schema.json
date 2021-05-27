@@ -5,7 +5,7 @@
   "type": "object",
   "properties": {
     "dllName": {
-      "description": "链接库(lib)名称",
+      "description": "链接库(lib)名称,默认dll",
       "type": "string",
       "default": "dll",
       "minLength": 1
@@ -15,7 +15,7 @@
       "type": "string"
     },
     "webpackMode": {
-      "description": "使用暴露webpack配置的方式",
+      "description": "使用暴露webpack配置的方式(交互)",
       "default": "@angular-builders/custom-webpack",
       "type": "string",
       "x-prompt": {

@@ -3,7 +3,7 @@
  */
 declare interface MainInitSchematics {
     /**
-     * 链接库(lib)名称
+     * 链接库(lib)名称,默认dll
      */
     dllName?: string;
     /**
@@ -11,7 +11,7 @@ declare interface MainInitSchematics {
      */
     projectName?: string;
     /**
-     * 使用暴露webpack配置的方式
+     * 使用暴露webpack配置的方式(交互)
      */
     webpackMode?: string;
     /**
@@ -24,19 +24,19 @@ declare interface MainInitSchematics {
  */
 declare interface SubSchematics {
     /**
-     * 子项目的名字
+     * 子项目的名字(交互)
      */
     name: string;
     /**
-     * 主项目的名字
+     * 主项目的名字(默认defaultProject)
      */
     mainProjectName?: string;
     /**
-     * 使用暴露webpack配置的方式
+     * 使用暴露webpack配置的方式(交互)
      */
     webpackMode?: string;
     /**
-     * 开发端口
+     * 开发端口(交互,每一个子项目开发时独立占据一个端口)
      */
     port: number;
 }
