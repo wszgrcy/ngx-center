@@ -1,24 +1,26 @@
 import * as webpack from 'webpack';
 import * as path from 'path';
-import {
-  LoadRemoteModulePlugin,
-  NgNamedImportPlugin,
-} from 'webpack-ng-dll-plugin';
+import { LoadRemoteModulePlugin } from 'webpack-ng-dll-plugin';
 import { BootstrapAssetsPlugin } from 'webpack-bootstrap-assets-plugin';
+import { NgNamedImportCheckPlugin } from 'webpack-ng-dll-plugin';
 
 export default (config: webpack.Configuration, options) => {
-  config.module.rules.unshift({
-    test: new RegExp(path.join(__dirname, '<%= sourceRoot %>')+'.*\\.(js|tsx?)$'),
-    use: 'webpack-ng-dll-plugin/dist/ng-named/loader/import',
-  });
-  const entry: any = config.entry;
-  config.entry = {main:entry.main};
+  // 依赖包资源
   config.plugins.push(
     new webpack.DllReferencePlugin({
       context: path.resolve(__dirname),
       manifest: require('./dist/manifest.json'),
     })
   );
+  // 主项目导出资源
+  config.plugins.push(
+    new webpack.DllReferencePlugin({
+        context: path.resolve(__dirname),
+        manifest: require('./dist/main-manifest.json')
+    })
+  );
+  // 导入检查模块,如果使用主项目的某些资源未被导出(管道,指令,组件)会提示文件路径警告,这时在export-module.ts中加入即可
+  config.plugins.push(new NgNamedImportCheckPlugin([path.resolve(__dirname, '<%= sourceRoot %>')]));
   config.output.jsonpFunction = '<%= camelize(name) %>Jsonp'
   config.output.filename = '<%= dasherize(name) %>.[name].js';
   config.plugins.push(new LoadRemoteModulePlugin());

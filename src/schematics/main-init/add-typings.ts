@@ -25,7 +25,6 @@ declare function loadRemoteModuleManifest(config: {
   scripts: AttrGroup[];
   stylesheets: AttrGroup[];
 }): Promise<any>
-declare function exportNgNamed(key: string, instance: any): void;
 `;
   constructor(private options: MainInitSchematics) {}
   run() {

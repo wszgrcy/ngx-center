@@ -91,11 +91,32 @@ describe('main-init', () => {
     let tree = await factory.runSchematic('main-init', { dllName });
     let angularJsonContent = tree.read('angular.json')?.toString();
     expect(angularJsonContent).toContain(`${strings.dasherize(dllName)}.js`);
-    let htmlContent=tree.read('projects/main-project/src/index.center-dll.html')?.toString()!
-    expect(htmlContent).toContain(`./${strings.dasherize(dllName)}.js`)
-    let selector=createCssSelectorForHtml(htmlContent)
-    expect(selector.queryOne('head')).toBeTruthy()
-    expect(selector.queryOne('script')).toBeTruthy()
-    
+    let htmlContent = tree
+      .read('projects/main-project/src/index.center-dll.html')
+      ?.toString()!;
+    expect(htmlContent).toContain(`./${strings.dasherize(dllName)}.js`);
+    let selector = createCssSelectorForHtml(htmlContent);
+    expect(selector.queryOne('head')).toBeTruthy();
+    expect(selector.queryOne('script')).toBeTruthy();
+  });
+  it('应该支持export-module', async () => {
+    let dllName = 'mainTest';
+    let tree = await factory.runSchematic('main-init', { dllName });
+    let content = tree
+      .read('/projects/main-project/tsconfig.app.json')
+      ?.toString();
+    expect(content).toContain('src/export-module.ts');
+    expect(tree.exists('/projects/main-project/src/export-module.ts')).toBe(
+      true
+    );
+  });
+  it('应该生成tsconfig.dll.json', async () => {
+    let dllName = 'mainTest';
+    let tree = await factory.runSchematic('main-init', { dllName });
+    let content = tree
+      .read('/projects/main-project/tsconfig.dll.json')
+      ?.toString();
+    expect(content).not.toContain('polyfills');
+    expect(content).not.toContain('export-module');
   });
 });
