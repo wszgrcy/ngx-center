@@ -16,7 +16,7 @@
     "schema.ts": "dtsgen -o ./src/schematics/schema.d.ts ./src/schematics/**/schema.json",
     "build": "rimraf ./dist && tsc && cpx -v \"./src/schematics/**/*.template\" ./dist/schematics && cpx -v \"./src/**/*.json\" ./dist && cpx -v ./package.json ./dist && cpx -v ./README.md ./dist",
     "toLink": "cd dist && yarn link&&npm link",
-    "prepare": "husky install"
+    "preinstall": "husky install"
   },
   "repository": {
     "type": "git",
