@@ -10,6 +10,11 @@
       "description": "子项目生成",
       "factory": "./sub/index",
       "schema": "./sub/schema.json"
+    },
+    "remote-sub-init": {
+      "description": "远程子项目初始化",
+      "factory": "./remote-sub-init/index",
+      "schema": "./remote-sub-init/schema.json"
     }
   }
 }

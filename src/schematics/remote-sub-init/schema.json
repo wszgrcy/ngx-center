@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "RemoteSubInitSchematics",
+  "title": "远程子项目初始化",
+  "type": "object",
+  "properties": {
+    "webpackMode": {
+      "description": "使用暴露webpack配置的方式(交互)",
+      "default": "@angular-builders/custom-webpack",
+      "type": "string",
+      "x-prompt": {
+        "message": "使用暴露webpack配置的方式",
+        "type": "list",
+        "items": [
+          {
+            "value": "@angular-builders/custom-webpack",
+            "label": "@angular-builders/custom-webpack"
+          },
+          { "value": "", "label": "设置为空(暂时不支持其他)" }
+        ]
+      }
+    },
+    "webpackPromotion": {
+      "description": "将webpack提升到根依赖(yarn会默认提升)",
+      "default": true,
+      "type": "boolean"
+    }
+  }
+}

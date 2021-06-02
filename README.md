@@ -177,9 +177,8 @@ declare interface SubSchematics {
 
 ## 远程子项目生成
 
-- 以下为手动生成,未来会添加到 schematics 中
 - 新建项目
-- 添加 `ngx-center`,`webpack-bootstrap-assets-plugin`,`webpack-ng-dll-plugin`
+- 在新疆的项目中运行`npx ng g ngx-center:remote-sub-init`
 - 获得主项目`manifest.json`(依赖),`main-manifest.json`(项目导出命名)
 - 如果需要使用主项目服务,则需要建立虚拟主项目(即建立与原主项目导出层级相同的文件),文件中只需要将类型配置正确即可.
 

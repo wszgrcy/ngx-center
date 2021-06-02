@@ -1,5 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { RunSchematics } from '../../types';
+import { RunSchematics } from '../types';
 import {
   addPackageJsonDependency,
   getPackageJsonDependency,
@@ -44,7 +44,9 @@ async function addWebpackDependency(tree: Tree, context: SchematicContext) {
   }
 }
 export class AddPackageJsonDependency implements RunSchematics {
-  constructor(private config: MainInitSchematics) {}
+  constructor(
+    private config: { webpackMode: string; webpackPromotion: boolean }
+  ) {}
   run(): Rule {
     return async (tree: Tree, context: SchematicContext) => {
       [

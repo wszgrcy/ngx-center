@@ -8,7 +8,7 @@ import { useClass } from '../../util/rule';
 import { AddExportModule } from './add-export-module';
 import { AddIndexCenterDllHtml } from './add-index-center-dll-html';
 import { AddPackageJsonCommand } from './add-package-json-command';
-import { AddPackageJsonDependency } from './add-package-json-dependency';
+import { AddPackageJsonDependency } from '../../rule/add-package-json-dependency';
 import { AddTsconfigDllFile } from './add-tsconfig-dll-file';
 import { AddTsconfigPaths } from './add-tsconfig-paths';
 import { AddTypings } from './add-typings';
