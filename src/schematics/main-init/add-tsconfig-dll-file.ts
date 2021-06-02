@@ -19,7 +19,7 @@ export class AddTsconfigDllFile implements RunSchematics {
       let projectName = this.options.projectName! || workspace.defaultProject!;
       let tsconfigPath =
         workspace.projects[projectName].architect?.build?.options.tsConfig!;
-      let dllTsconfigPath = path.join(
+      let dllTsconfigPath = path.posix.join(
         path.dirname(tsconfigPath),
         'tsconfig.dll.json'
       );
