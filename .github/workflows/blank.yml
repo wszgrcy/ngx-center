@@ -32,11 +32,12 @@ jobs:
         run: |
           yarn build
       - id: publish
+        name: publish
         uses: JS-DevTools/npm-publish@v1
-        working-directory: ./dist
         with:
           token: ${{ secrets.NPM_PUBLISH_TOKEN }}
           dry-run: true
+        working-directory: ./dist
       - if: steps.publish.outputs.type != 'none'
         run: |
           echo "[${{ steps.publish.outputs.type }}]Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
