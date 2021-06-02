@@ -36,9 +36,7 @@ jobs:
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_PUBLISH_TOKEN }}
-          dry-run: true
           package: ./dist/package.json
-        # working-directory: ./dist
       - if: steps.publish.outputs.type != 'none'
         run: |
           echo "[${{ steps.publish.outputs.type }}]Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
