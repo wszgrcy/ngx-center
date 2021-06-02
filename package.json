@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "description": "一个中心,多个......",
   "main": "index.js",
+  "keywords": [
+    "angular",
+    "angular-schematics",
+    "schematics",
+    "angular-cli",
+    "scaffold",
+    "webpack-ng-dll-plugin"
+  ],
   "scripts": {
     "test": "jest",
     "schema.ts": "dtsgen -o ./src/schematics/schema.d.ts ./src/schematics/**/schema.json",
