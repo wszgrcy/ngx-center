@@ -15,7 +15,8 @@
     "test": "jest",
     "schema.ts": "dtsgen -o ./src/schematics/schema.d.ts ./src/schematics/**/schema.json",
     "build": "rimraf ./dist && tsc && cpx -v \"./src/schematics/**/*.template\" ./dist/schematics && cpx -v \"./src/**/*.json\" ./dist && cpx -v ./package.json ./dist && cpx -v ./README.md ./dist",
-    "toLink": "cd dist && yarn link&&npm link"
+    "toLink": "cd dist && yarn link&&npm link",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -40,11 +41,16 @@
   },
   "devDependencies": {
     "@angular/cli": "^11.2.10",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
     "cpx": "^1.5.0",
     "dtsgenerator": "^3.7.1",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
+    "prettier": "^2.3.0",
+    "pretty-quick": "^3.1.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.5.4"
   },
