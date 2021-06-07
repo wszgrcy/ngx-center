@@ -67,7 +67,7 @@ export class AddPackageJsonDependency implements RunSchematics {
           '@angular-devkit/build-angular'
         );
         let version = '^11.1.1';
-        if (/$(~|\^)?0.10/.test(dependency!.version)) {
+        if (/^(~|\^)?0.10/.test(dependency!.version)) {
           version = '^10.0.1';
         }
         addPackageJsonDependency(tree, {
