@@ -56,7 +56,7 @@ export class ChangeAngularJson implements RunSchematics {
     }
     architect!.serve!.builder =
       '@angular-builders/custom-webpack:dev-server' as any;
-
+    architect!.serve!.options! = architect?.serve?.options || ({} as any);
     (
       architect?.serve?.options as any
     ).publicHost = `0.0.0.0:${this.options.port}`;

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SubSchematics",
+  "$id": "SubSchematics",
   "title": "子项目生成",
   "type": "object",
   "properties": {
@@ -45,8 +45,5 @@
       }
     }
   },
-  "required": [
-    "name",
-    "port"
-  ]
+  "required": ["name", "port"]
 }

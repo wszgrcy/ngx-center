@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "MainInitSchematics",
+  "$id": "MainInitSchematics",
   "title": "主项目初始化",
   "type": "object",
   "properties": {

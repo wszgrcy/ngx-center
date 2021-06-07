@@ -70,11 +70,13 @@ export class ChangeAngularJson implements RunSchematics {
         };
       }
       if (architect?.serve) {
+        let browserTarget = architect.serve.options
+          ? architect.serve.options.browserTarget
+          : Object.values(architect.serve.configurations!)[0].browserTarget!;
         architect.serve.configurations![this.CENTER_MAIN] = {
-          browserTarget: `${architect.serve.options.browserTarget
-            .split(':')
-            .slice(0, 2)
-            .join(':')}:${this.CENTER_MAIN}`,
+          browserTarget: `${browserTarget.split(':').slice(0, 2).join(':')}:${
+            this.CENTER_MAIN
+          }`,
         };
       }
       tree.overwrite('angular.json', JSON.stringify(workspace, undefined, 2));

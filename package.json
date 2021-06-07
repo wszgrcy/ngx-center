@@ -1,6 +1,6 @@
 {
   "name": "ngx-center",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "一个中心,多个......",
   "main": "index.js",
   "keywords": [
@@ -28,24 +28,24 @@
   },
   "homepage": "https://github.com/wszgrcy/ngx-center#readme",
   "peerDependencies": {
-    "@angular/cli": "^11.0.0"
+    "@angular/cli": "^12.0.3"
   },
   "dependencies": {
-    "@angular-devkit/core": "^11.2.7",
-    "@angular-devkit/schematics": "^11.2.7",
-    "@schematics/angular": "^11.2.7",
+    "@angular-devkit/core": "^12.0.3",
+    "@angular-devkit/schematics": "^12.0.3",
+    "@schematics/angular": "^12.0.3",
     "cyia-code-util": "^1.0.4",
     "jsonc-parser": "^3.0.0",
     "typescript": "^4.2.3"
   },
   "devDependencies": {
-    "@angular/cli": "^11.2.10",
+    "@angular/cli": "^12.0.3",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
     "cpx": "^1.5.0",
-    "dtsgenerator": "^3.7.1",
+    "dtsgenerator": "^3.12.1",
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "prettier": "^2.3.0",
