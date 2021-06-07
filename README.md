@@ -21,7 +21,7 @@
 
 # 依赖
 
-- Angular10 Angular11
+- Angular10 Angular11 Angular12
 - node12+
 
 # 原理
