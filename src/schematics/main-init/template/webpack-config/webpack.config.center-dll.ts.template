@@ -19,8 +19,8 @@ export default (config: webpack.Configuration, options) => {
     },
     options
   );
-  config.plugins.push(new RemoteModuleStartupMainTemplatePlugin());
-  config.plugins.push(new RemoteModuleManifestStartupMainTemplatePlugin());
+  config.plugins!.push(new RemoteModuleStartupMainTemplatePlugin());
+  config.plugins!.push(new RemoteModuleManifestStartupMainTemplatePlugin());
 
   return config;
 };

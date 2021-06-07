@@ -21,7 +21,7 @@ export class AddExportModule implements RunSchematics {
       let lastFileNode = filesNode?.children?.pop();
       let tsconfigDir = path.dirname(tsconfigPath);
       let filePath = path.join(
-        path.relative(tsconfigDir, sourceRoot),
+        path.posix.relative(tsconfigDir, sourceRoot),
         'export-module.ts'
       );
       recorder.insertRight(
