@@ -53,12 +53,12 @@ export class AddPackageJsonDependency implements RunSchematics {
         {
           type: NodeDependencyType.Dev,
           name: 'webpack-ng-dll-plugin',
-          version: '2.1.13',
+          version: '2.2.1',
         },
         {
           type: NodeDependencyType.Dev,
           name: 'webpack-bootstrap-assets-plugin',
-          version: '1.0.9',
+          version: '2.0.0',
         },
       ].forEach((dependency) => addPackageJsonDependency(tree, dependency));
       if (this.config.webpackMode === '@angular-builders/custom-webpack') {
@@ -69,6 +69,9 @@ export class AddPackageJsonDependency implements RunSchematics {
         let version = '^11.1.1';
         if (/^(~|\^)?0.10/.test(dependency!.version)) {
           version = '^10.0.1';
+        }
+        if (/^(~|\^)?12/.test(dependency!.version)) {
+          version = '^12.0.0';
         }
         addPackageJsonDependency(tree, {
           type: NodeDependencyType.Dev,

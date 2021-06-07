@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "RemoteSubInitSchematics",
+  "$id": "RemoteSubInitSchematics",
   "title": "远程子项目初始化",
   "type": "object",
   "properties": {

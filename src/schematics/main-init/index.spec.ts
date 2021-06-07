@@ -22,7 +22,11 @@ describe('main-init', () => {
   it('应该修改package.json依赖', async () => {
     let tree = await factory.runSchematic('main-init');
     let config = tree.read('package.json')!.toString();
+    let json = JSON.parse(config);
     expect(config).toContain('webpack-ng-dll-plugin');
+    expect(json.devDependencies['@angular-builders/custom-webpack']).toContain(
+      '12'
+    );
   });
   it(`应该在package.json中不存在'@angular-builders/custom-webpack',当'webpackMode'为空时`, async () => {
     let tree = await factory.runSchematic('main-init', { webpackMode: '' });
