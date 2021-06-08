@@ -11,8 +11,6 @@ export default function (): Rule {
       let file = tree.read(filePath)?.toString()!;
       let sf = createSourceFile('', file, ScriptTarget.Latest, true);
       let selector = createCssSelectorForTs(sf);
-      console.log(selector.queryAll('ExpressionStatement').length);
-
       selector
         .queryAll('ExpressionStatement[expression*=jsonpFunction]')
         .find((removeNode) => {
