@@ -1802,14 +1802,15 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
-cyia-code-util@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/cyia-code-util/-/cyia-code-util-1.0.4.tgz#235724c03f24e050b8ad3b7c8a5a6489369e7e99"
-  integrity sha512-aju/mWwLzRORxfKrjHmeqAT6o5/6IJCWCmXt59DKpwhhfmpVavU5JrrxAIl4prOypsFWVtWEIycocuiYh0hElg==
+cyia-code-util@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/cyia-code-util/-/cyia-code-util-1.2.2.tgz#88b6639ee45a877c164d25806a4c3ea8fff34da5"
+  integrity sha512-cd/b0H9t6cUIBYaMUeQ+NwiuEPvLusOg7T1zXppZuvybaIl5z5I4mnGd/GomsaYTBlKLmYB2ug1M3mH1Qriz+g==
   dependencies:
     "@angular/compiler" "^11.0.7"
     css-what "^4.0.0"
     inquirer "^7.3.3"
+    jsonc-parser "^3.0.0"
 
 dargs@^7.0.0:
   version "7.0.0"

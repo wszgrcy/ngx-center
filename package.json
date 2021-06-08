@@ -34,7 +34,7 @@
     "@angular-devkit/core": "^12.0.3",
     "@angular-devkit/schematics": "^12.0.3",
     "@schematics/angular": "^12.0.3",
-    "cyia-code-util": "^1.0.4",
+    "cyia-code-util": "^1.2.2",
     "jsonc-parser": "^3.0.0",
     "typescript": "^4.2.3"
   },
@@ -73,5 +73,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "ng-update": {
+    "migrations": "./src/schematics/migration-collection.json"
   }
 }
