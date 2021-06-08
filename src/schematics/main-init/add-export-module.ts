@@ -20,8 +20,8 @@ export class AddExportModule implements RunSchematics {
       let recorder = tree.beginUpdate(tsconfigPath);
       let lastFileNode = filesNode?.children?.pop();
       let tsconfigDir = path.dirname(tsconfigPath);
-      let filePath = path.join(
-        path.relative(tsconfigDir, sourceRoot),
+      let filePath = path.posix.join(
+        path.posix.relative(tsconfigDir, sourceRoot),
         'export-module.ts'
       );
       recorder.insertRight(
@@ -30,7 +30,7 @@ export class AddExportModule implements RunSchematics {
       );
       tree.commitUpdate(recorder);
       tree.create(
-        path.join(sourceRoot, 'export-module.ts'),
+        path.posix.join(sourceRoot, 'export-module.ts'),
         `/** 添加要被使用的依赖到此 导出的路径可被子项目直接引用,不支持间接导出即export的文件内存在export,然后使用文件内的export路径,不使用导出共享主项目的命名情况下,请移除所有相关 */`
       );
     };
