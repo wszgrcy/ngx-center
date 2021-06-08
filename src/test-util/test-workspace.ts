@@ -15,11 +15,12 @@ import {
 export class TestWorkspaceFactory {
   private hostTree = new HostTree();
   private tree!: UnitTestTree;
-  private runner = new SchematicTestRunner(
-    'ngx-center',
-    require.resolve('../schematics/collection.json')
-  );
-  constructor() {}
+  private runner: SchematicTestRunner;
+  constructor(
+    collectionPath = require.resolve('../schematics/collection.json')
+  ) {
+    this.runner = new SchematicTestRunner('ngx-center', collectionPath);
+  }
 
   async create(options?: {
     name?: string;
@@ -87,6 +88,6 @@ export class TestWorkspaceFactory {
   }
 }
 
-export function createTestWorkspaceFactory() {
-  return new TestWorkspaceFactory();
+export function createTestWorkspaceFactory(collectionPath: string) {
+  return new TestWorkspaceFactory(collectionPath);
 }
