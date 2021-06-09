@@ -1,7 +1,7 @@
 # ngx-center
 
 一个中心,多个......
-
+- [使用介绍(视频)](https://www.bilibili.com/video/BV1cq4y1L77i/)
 # 这是什么?
 
 - 一个 Angular 单运行时共享依赖的解决方案
