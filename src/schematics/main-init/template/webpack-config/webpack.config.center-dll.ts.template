@@ -1,7 +1,7 @@
 import * as webpack from 'webpack';
 import * as path from 'path';
 import { setNgDllPlugin,RemoteModuleStartupMainTemplatePlugin,RemoteModuleManifestStartupMainTemplatePlugin } from 'webpack-ng-dll-plugin';
-export default (config: webpack.Configuration, options) => {
+export default (config: webpack.Configuration, options:any) => {
   setNgDllPlugin(
     config,
     {
