@@ -88,6 +88,6 @@ export class TestWorkspaceFactory {
   }
 }
 
-export function createTestWorkspaceFactory(collectionPath: string) {
+export function createTestWorkspaceFactory(collectionPath?: string) {
   return new TestWorkspaceFactory(collectionPath);
 }

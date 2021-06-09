@@ -49,8 +49,7 @@ describe('update-12', () => {
 
   it('应该移除jsonpFunction', async () => {
     let tree = await factory.runSchematic('migration-v12');
-    let config = tree.read('package.json')!.toString();
     let webpackContent = tree.read('webpack.config.test.ts')!.toString();
-    expect(config).not.toContain('config.output.jsonpFunction = "toolsJsonp";');
+    expect(webpackContent).not.toContain('config.output.jsonpFunction = "toolsJsonp";');
   });
 });
