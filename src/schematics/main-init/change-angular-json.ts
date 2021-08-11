@@ -29,6 +29,7 @@ export class ChangeAngularJson implements RunSchematics {
       let projectBuildConfig = architect?.build?.configurations;
       if (projectBuildConfig) {
         projectBuildConfig[this.CENTER_DLL] = {
+          extractLicenses: false,
           outputPath: `dist/${this.CENTER_DLL}`,
           vendorChunk: false,
           assets: [],
@@ -36,16 +37,8 @@ export class ChangeAngularJson implements RunSchematics {
           scripts: [],
           ...projectBuildConfig[this.CENTER_DLL],
         };
-        projectBuildConfig[`${this.CENTER_DLL}-prod`] = {
-          ...projectBuildConfig[this.CENTER_DLL],
-          optimization: true,
-          outputHashing: 'all',
-          sourceMap: false,
-          namedChunks: false,
-          extractLicenses: true,
-          buildOptimizer: true,
-        };
         projectBuildConfig[this.CENTER_MAIN] = {
+          extractLicenses: false,
           vendorChunk: false,
           index: {
             input: path.posix.join(
@@ -67,6 +60,18 @@ export class ChangeAngularJson implements RunSchematics {
         projectBuildConfig[`${this.CENTER_MAIN}-prod`] = {
           ...projectBuildConfig['production'],
           ...projectBuildConfig[this.CENTER_MAIN],
+        };
+        projectBuildConfig[`${this.CENTER_MAIN}`] = {
+          ...projectBuildConfig['development'],
+          ...projectBuildConfig[`${this.CENTER_MAIN}`],
+        };
+        projectBuildConfig[`${this.CENTER_DLL}-prod`] = {
+          ...projectBuildConfig['production'],
+          ...projectBuildConfig[this.CENTER_DLL],
+        };
+        projectBuildConfig[this.CENTER_DLL] = {
+          ...projectBuildConfig['development'],
+          ...projectBuildConfig[this.CENTER_DLL],
         };
       }
       if (architect?.serve) {

@@ -19,7 +19,9 @@ export class ChangeAngularJson implements RunSchematics {
       if (this.options.webpackMode === '@angular-builders/custom-webpack') {
         this['@angular-builders/custom-webpack'](architect);
       }
-
+      if (architect?.build) {
+        (architect.build as any).defaultConfiguration = 'development';
+      }
       if (architect?.build?.options) {
         (architect!.build!.options as any).vendorChunk = false;
         (
@@ -30,8 +32,15 @@ export class ChangeAngularJson implements RunSchematics {
         ).deployUrl = `${this.options.name}/`;
       }
       if (architect?.serve?.options) {
-        (architect.serve.options as any).port = +this.options.port;
-        (architect.serve.options as any).servePath = `/`;
+        let serveConfig = {
+          port: +this.options.port,
+          servePath: `/`,
+          disableHostCheck: true,
+        };
+        architect.serve.options = {
+          ...architect.serve.options,
+          ...serveConfig,
+        };
       }
       architect!.build!.options.index = '';
       architect!.build!.options.polyfills = '';
