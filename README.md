@@ -1,7 +1,9 @@
 # ngx-center
 
 一个中心,多个......
+
 - [使用介绍(视频)](https://www.bilibili.com/video/BV1cq4y1L77i/)
+
 # 这是什么?
 
 - 一个 Angular 单运行时共享依赖的解决方案
@@ -24,6 +26,12 @@
 
 - Angular10 Angular11 Angular12
 - node12+
+
+| ngx-center 版本 | Angular 版本 |
+| --------------- | ------------ |
+| 0.2.5           | 12.2.0       |
+| 0.2.3           | 12.0.3       |
+| 0.1.1           | 10-11        |
 
 # 原理
 
@@ -161,6 +169,10 @@ declare interface SubSchematics {
   > 比如,原项目为`deployUrl:'sub1'`,想放到主文件夹中的`router/sub1`中,那么就要修改`deployUrl:'router/sub1'`,同时,代码请求部分也改成`fetch('router/sub1/bootstrap.json')`,复制到`cpx \"dist/sub1/**/*\" dist/ng-cli-plugin/router/sub1`
   > 如果没有要求,默认子项目名与部署地址位置相同
 
+## 模板
+
+- [https://github.com/wszgrcy/ngx-center-template](https://github.com/wszgrcy/ngx-center-template)
+
 ## demo 参考
 
 - 源码地址:[https://github.com/wszgrcy/ng-cli-plugin-demo](https://github.com/wszgrcy/ng-cli-plugin-demo)
@@ -172,6 +184,19 @@ declare interface SubSchematics {
 - tsconfig 有独立进行配置的开发者,请自行修改由原理图(schematics)生成的相关配置,因为可能与您具体使用场景不同
 - 声明文件名如果与默认不同(typings.d.ts),也需要自行复制或添加到 tsconfig 中
 - 如果使用非`@angular-builders/custom-webpack`作为 webapck 配置的导出,也请自行根据生成的文件修改为您自身的 builder 需要的格式,暂时没有安排适配其他 builder.
+
+# ngx-center 与 webpack-ng-dll-plugin
+
+- `ngx-center`作为原理图,生成相关配置用来实现相关功能
+- `webpack-ng-dll-plugin`中的插件也可以单独使用,实现部分功能
+
+# license 提取插件问题
+
+- 可能是升级 webpack5(ng12 使用)的原因,license-webpack-plugin 与 webpack 自带的 dll 不兼容
+  > 已经单独开项目测试,证明确实是此问题
+- 目前已经对该依赖库做了 pr,不知道什么时候会合并进去
+- 就算合并进去也要再等待`angular-cli`的更新
+- 所以目前在使用 dll 的部分,都会禁止提取 license
 
 # 常见问题
 
@@ -218,3 +243,58 @@ options should match some schema in anyOf
 ```
 
 > 导出模块`export-module.ts`未导出任何命名,请添加一个,或者移除这个功能(搜索`export-module`,移除相关代码及文件即可)
+
+7. license 插件导致的报错
+
+- 报错如下
+
+```log
+[error] HookWebpackError: ENOENT: no such file or directory, scandir
+    at makeWebpackError (/xxx/projectName/node_modules/webpack/lib/HookWebpackError.js:48:9)
+    at /xxx/projectName/node_modules/webpack/lib/Compilation.js:2513:12
+    at eval (eval at create (/xxx/projectName/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:31:1)
+    at fn (/xxx/projectName/node_modules/webpack/lib/Compilation.js:452:17)
+    at _next4 (eval at create (/xxx/projectName/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:28:1)
+    at eval (eval at create (/xxx/projectName/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:46:1)
+    at fn (/xxx/projectName/node_modules/webpack/lib/Compilation.js:464:9)
+    at _next3 (eval at create (/xxx/projectName/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:41:1)
+    at eval (eval at create (/xxx/projectName/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:60:1)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+-- inner error --
+Error: ENOENT: no such file or directory, scandir
+    at Object.readdirSync (fs.js:1043:3)
+    at CacheBackend.provideSync (/xxx/projectName/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:233:32)
+    at WebpackFileSystem.listPaths (/xxx/projectName/node_modules/license-webpack-plugin/dist/WebpackFileSystem.js:78:24)
+    at LicenseTextReader.readLicense (/xxx/projectName/node_modules/license-webpack-plugin/dist/LicenseTextReader.js:37:54)
+    at PluginChunkReadHandler.processModule (/xxx/projectName/node_modules/license-webpack-plugin/dist/PluginChunkReadHandler.js:46:62)
+    at /xxx/projectName/node_modules/license-webpack-plugin/dist/PluginChunkReadHandler.js:22:23
+    at WebpackModuleFileIterator.internalCallback (/xxx/projectName/node_modules/license-webpack-plugin/dist/WebpackModuleFileIterator.js:25:13)
+    at WebpackModuleFileIterator.iterateFiles (/xxx/projectName/node_modules/license-webpack-plugin/dist/WebpackModuleFileIterator.js:10:9)
+    at /xxx/projectName/node_modules/license-webpack-plugin/dist/PluginChunkReadHandler.js:20:32
+    at WebpackChunkModuleIterator.iterateModules (/xxx/projectName/node_modules/license-webpack-plugin/dist/WebpackChunkModuleIterator.js:42:21)
+
+
+```
+
+- 此错误一般出现在 ng12 上,`license-webpack-plugin`与`webpack`原生的 dll 插件冲突
+- 解决方法就是在 angular.json 中关闭 license 即可`"extractLicenses": false,`
+
+8. export-module 没有使用,也没有删除
+
+- 错误日志
+
+```log
+[error] ValidationError: Invalid options object. Dll Reference Plugin has been initialized using an options object that does not match the API schema.
+ - options.manifest.content should be a non-empty object.
+   -> The mappings from request to module info.
+    at validate (/Users/chen/my-project/ngx-center-template/node_modules/schema-utils/dist/validate.js:105:11)
+    at /Users/chen/my-project/ngx-center-template/node_modules/webpack/lib/util/create-schema-validation.js:16:17
+    at new DllReferencePlugin (/Users/chen/my-project/ngx-center-template/node_modules/webpack/lib/DllReferencePlugin.js:34:3)
+    at exports.default (/Users/chen/my-project/ngx-center-template/webpack.config.project1.ts:17:5)
+    at Function.<anonymous> (/Users/chen/my-project/ngx-center-template/node_modules/@angular-builders/custom-webpack/src/custom-webpack-builder.ts:47:14)
+    at Generator.next (<anonymous>)
+    at /Users/chen/my-project/ngx-center-template/node_modules/@angular-builders/custom-webpack/dist/custom-webpack-builder.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/Users/chen/my-project/ngx-center-template/node_modules/@angular-builders/custom-webpack/dist/custom-webpack-builder.js:4:12)
+    at Function.buildWebpackConfig (/Users/chen/my-project/ngx-center-template/node_modules/@angular-builders/custom-webpack/dist/custom-webpack-builder.js:19:16)
+```
