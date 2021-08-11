@@ -29,7 +29,7 @@ export class ChangeAngularJson implements RunSchematics {
       let projectBuildConfig = architect?.build?.configurations;
       if (projectBuildConfig) {
         projectBuildConfig[this.CENTER_DLL] = {
-          extractLicenses: false,
+          extractLicenses: true,
           outputPath: `dist/${this.CENTER_DLL}`,
           vendorChunk: false,
           assets: [],
