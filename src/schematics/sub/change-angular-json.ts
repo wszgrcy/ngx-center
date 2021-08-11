@@ -21,15 +21,16 @@ export class ChangeAngularJson implements RunSchematics {
       }
       if (architect?.build) {
         (architect.build as any).defaultConfiguration = 'development';
-      }
-      if (architect?.build?.options) {
-        (architect!.build!.options as any).vendorChunk = false;
-        (
-          architect!.build!.options as any
-        ).deployUrl = `http://127.0.0.1:${this.options.port}/`;
         (
           architect.build.configurations?.production as any
         ).deployUrl = `${this.options.name}/`;
+      }
+      if (architect?.build?.options) {
+        architect.build.options.extractLicenses = false;
+        architect!.build!.options.vendorChunk = false;
+        (
+          architect!.build!.options as any
+        ).deployUrl = `http://127.0.0.1:${this.options.port}/`;
       }
       if (architect?.serve?.options) {
         let serveConfig = {
