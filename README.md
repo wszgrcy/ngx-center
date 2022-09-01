@@ -36,8 +36,56 @@
 
 # 版本升级
 
-- 由于时间原因,没有做关于 13 版本的支持,不过做 14 的支持时候只改了很少的代码 13 可能不需要或者也是很少就能支持,不过还是建议直接升 14 吧...个人时间有限
-- 初次使用直接安装,后续升级 ng,目前来说改`webpack-ng-dll-plugin`就行了(有ng12的update),未来需要大变动会使用ng update支持
+- 初次使用直接安装
+- ng10.11->ng12 使用 ng update
+- ng13 由于时间未适配,可以自己提pr...
+- ng12->ng14 修改下`webpack.config.center-main.ts`
+  > 估计也没人用我也懒得写更新脚本了....
+
+```ts
+import * as webpack from 'webpack';
+import * as path from 'path';
+import { NgNamedExportPlugin } from 'webpack-ng-dll-plugin';
+
+export default (config: webpack.Configuration) => {
+  config.plugins!.push(
+    new webpack.DllReferencePlugin({
+      context: path.resolve(__dirname),
+      manifest: require('./dist/manifest.json'),
+    })
+  );
+  const exportFilePath = path.resolve(
+    __dirname,
+    '<%= sourceRoot %>',
+    'export-module.ts'
+  );
+  // 这里移除掉
+  // config.output!.library = 'centerLib';
+
+  (config.entry as any).main.push(exportFilePath);
+  config.plugins!.push(
+    new NgNamedExportPlugin(exportFilePath, {
+      name: 'centerLib',
+      path: path.resolve(__dirname, 'dist', 'main-manifest.json'),
+      watchWrite: true,
+    })
+  );
+  // 新增部分
+  let entry = config.entry as Record<string, string[]>;
+  Object.keys(entry).forEach((item) => {
+    if (item === 'main') {
+      entry[item] = {
+        import: entry[item],
+        library: { name: 'centerLib', type: 'window' },
+      } as any;
+    } else {
+      entry[item] = { import: entry[item] } as any;
+    }
+  });
+
+  return config;
+};
+```
 
 # 原理
 
