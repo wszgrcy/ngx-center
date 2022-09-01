@@ -36,7 +36,7 @@ export class TestWorkspaceFactory {
         'workspace',
         {
           name: 'test-workspace',
-          version: '11.0.0',
+          version: '14.0.0',
           newProjectRoot: 'projects',
           ...options,
         },

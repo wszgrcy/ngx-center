@@ -25,7 +25,7 @@ describe('main-init', () => {
     let json = JSON.parse(config);
     expect(config).toContain('webpack-ng-dll-plugin');
     expect(json.devDependencies['@angular-builders/custom-webpack']).toContain(
-      '12'
+      '14'
     );
   });
   it(`应该在package.json中不存在'@angular-builders/custom-webpack',当'webpackMode'为空时`, async () => {

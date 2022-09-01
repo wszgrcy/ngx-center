@@ -8,7 +8,7 @@ import {
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import * as fs from 'fs';
 import * as path from 'path';
-import { getConfiguredPackageManager } from '@angular/cli/utilities/config';
+import { getConfiguredPackageManager } from '@angular/cli/src/utilities/config';
 async function addWebpackDependency(tree: Tree, context: SchematicContext) {
   let packageManager = await getConfiguredPackageManager();
   if (packageManager === 'yarn') {
@@ -53,7 +53,7 @@ export class AddPackageJsonDependency implements RunSchematics {
         {
           type: NodeDependencyType.Dev,
           name: 'webpack-ng-dll-plugin',
-          version: '2.2.2',
+          version: '2.3.0',
         },
         {
           type: NodeDependencyType.Dev,
@@ -72,6 +72,9 @@ export class AddPackageJsonDependency implements RunSchematics {
         }
         if (/^(~|\^)?12/.test(dependency!.version)) {
           version = '^12.0.0';
+        }
+        if (/^(~|\^)?14/.test(dependency!.version)) {
+          version = '^14.0.0';
         }
         addPackageJsonDependency(tree, {
           type: NodeDependencyType.Dev,

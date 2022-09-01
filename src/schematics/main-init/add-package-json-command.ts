@@ -1,4 +1,3 @@
-import { createScanner } from 'jsonc-parser';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { RunSchematics } from '../../types';
 
@@ -16,9 +15,9 @@ export class AddPackageJsonCommand implements RunSchematics {
       content.scripts['start:center-main'] =
         'ng serve --configuration center-main';
       content.scripts['build:center-main'] =
-      'ng build --configuration center-main';
+        'ng build --configuration center-main';
       content.scripts['build:center-main:prod'] =
-      'ng build --configuration center-main-prod';
+        'ng build --configuration center-main-prod';
       content.scripts['build:center-dll'] =
         'ng build --configuration center-dll';
       content.scripts['build:center-dll:prod'] =

@@ -20,8 +20,8 @@ export class AddWebpackConfig implements RunSchematics {
       let workspace: WorkspaceSchema = JSON.parse(
         tree.read('angular.json')!.toString()
       );
-      let mainProjectName =
-        this.options!.mainProjectName! || workspace!.defaultProject!;
+      // 官方废弃了默认项目,所以需要手动指定主项目
+      let mainProjectName = this.options!.mainProjectName!;
       return mergeWith(
         apply(url('./template/webpack-config'), [
           template({

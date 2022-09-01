@@ -18,7 +18,10 @@ export class AddIndexCenterDllHtml implements RunSchematics {
         tree.read('angular.json')!.toString()
       );
       let architect: WorkspaceTargets<ProjectType.Application> = workspace
-        .projects[this.options.projectName || workspace.defaultProject!]
+        .projects[this.options.projectName || workspace.defaultProject!||
+          Object.keys(workspace.projects).length == 1
+            ? Object.keys(workspace.projects)[0]
+            : '']
         .architect!;
       let indexPath = architect.build?.options.index!;
       let html = tree.read(indexPath)?.toString()!;

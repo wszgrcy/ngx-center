@@ -19,8 +19,16 @@ export class ChangeAngularJson implements RunSchematics {
       if (tree.exists('angular.json')) {
         workspace = JSON.parse(tree.read('angular.json')!.toString());
       }
+      // defaultProject 已经被废弃,请不要使用
       let projectName: string =
-        this.options.projectName || workspace.defaultProject!;
+        this.options.projectName! ||
+        workspace.defaultProject ||
+        Object.keys(workspace.projects).length == 1
+          ? Object.keys(workspace.projects)[0]
+          : '';
+      if (!projectName) {
+        throw new Error('no projectName');
+      }
       let architect: WorkspaceTargets<ProjectType.Application> =
         workspace.projects[projectName].architect!;
       if (this.options.webpackMode === '@angular-builders/custom-webpack') {

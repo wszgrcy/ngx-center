@@ -16,7 +16,10 @@ export class AddTsconfigDllFile implements RunSchematics {
       let workspace: WorkspaceSchema = JSON.parse(
         tree.read('angular.json')!.toString()
       );
-      let projectName = this.options.projectName! || workspace.defaultProject!;
+      let projectName = this.options.projectName! || workspace.defaultProject!||
+      Object.keys(workspace.projects).length == 1
+        ? Object.keys(workspace.projects)[0]
+        : '';;
       let tsconfigPath =
         workspace.projects[projectName].architect?.build?.options.tsConfig!;
       let dllTsconfigPath = path.posix.join(
