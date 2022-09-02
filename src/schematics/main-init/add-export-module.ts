@@ -3,6 +3,7 @@ import { WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
 import { findNodeAtLocation, parseTree } from 'jsonc-parser';
 import { RunSchematics } from '../../types';
 import * as path from 'path';
+import { getMainProject } from '../../util/rule';
 export class AddExportModule implements RunSchematics {
   constructor(private options: MainInitSchematics) {}
   run() {
@@ -10,12 +11,7 @@ export class AddExportModule implements RunSchematics {
       let workspace: WorkspaceSchema = JSON.parse(
         tree.read('angular.json')!.toString()
       );
-      let projectName =
-        this.options.projectName! ||
-        workspace.defaultProject! ||
-        Object.keys(workspace.projects).length == 1
-          ? Object.keys(workspace.projects)[0]
-          : '';
+      let projectName = getMainProject(tree, this.options.projectName!);
       let tsconfigPath =
         workspace.projects[projectName].architect?.build?.options.tsConfig!;
       let sourceRoot = workspace.projects[projectName].sourceRoot;

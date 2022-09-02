@@ -7,6 +7,7 @@ import {
 } from '@schematics/angular/utility/workspace-models';
 import * as path from 'path';
 import { strings } from '@angular-devkit/core';
+import { getMainProject } from '../../util/rule';
 
 export class ChangeAngularJson implements RunSchematics {
   readonly CENTER_MAIN = 'center-main';
@@ -20,15 +21,7 @@ export class ChangeAngularJson implements RunSchematics {
         workspace = JSON.parse(tree.read('angular.json')!.toString());
       }
       // defaultProject 已经被废弃,请不要使用
-      let projectName: string =
-        this.options.projectName! ||
-        workspace.defaultProject ||
-        Object.keys(workspace.projects).length == 1
-          ? Object.keys(workspace.projects)[0]
-          : '';
-      if (!projectName) {
-        throw new Error('no projectName');
-      }
+      let projectName: string = getMainProject(tree, this.options.projectName!);
       let architect: WorkspaceTargets<ProjectType.Application> =
         workspace.projects[projectName].architect!;
       if (this.options.webpackMode === '@angular-builders/custom-webpack') {
@@ -51,7 +44,7 @@ export class ChangeAngularJson implements RunSchematics {
           index: {
             input: path.posix.join(
               path.dirname(architect?.build?.options.index!),
-              `index.${this.CENTER_DLL}.html`
+              `index.${this.CENTER_MAIN}.html`
             ),
             output: path.basename(architect?.build?.options.index!),
           } as any,

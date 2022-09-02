@@ -14,8 +14,12 @@
       "x-prompt": "请输入子项目的名字"
     },
     "mainProjectName": {
-      "description": "主项目的名字(默认defaultProject)",
-      "type": "string"
+      "description": "主项目的名字",
+      "type": "string",
+      "x-prompt": {
+        "message": "请输入主项目的名字(ng14废弃了默认字段)",
+        "type": "string"
+      }
     },
     "webpackMode": {
       "description": "使用暴露webpack配置的方式(交互)",

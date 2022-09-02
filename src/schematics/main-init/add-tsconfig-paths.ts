@@ -2,6 +2,7 @@ import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
 import { findNodeAtLocation, parseTree } from 'jsonc-parser';
 import { RunSchematics } from '../../types';
+import { getMainProject } from '../../util/rule';
 
 export class AddTsconfigPaths implements RunSchematics {
   constructor(private options: MainInitSchematics) {}
@@ -17,10 +18,7 @@ export class AddTsconfigPaths implements RunSchematics {
       let workspace: WorkspaceSchema = JSON.parse(
         tree.read('angular.json')?.toString()!
       );
-      let projectName = this.options.projectName! || workspace.defaultProject!||
-      Object.keys(workspace.projects).length == 1
-        ? Object.keys(workspace.projects)[0]
-        : '';;
+      let projectName = getMainProject(tree, this.options.projectName!);
       let sourceRoot = workspace.projects[projectName].sourceRoot!;
       let pathsReMap = `"@center-main/*":["${sourceRoot}/*"]`;
       let node = parseTree(content)!;

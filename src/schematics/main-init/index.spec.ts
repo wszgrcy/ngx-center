@@ -17,7 +17,7 @@ describe('main-init', () => {
     let config = tree.read('package.json')!.toString();
     expect(config).toContain('build:center-main');
     expect(config).toContain('start:center-main');
-    expect(config).toContain('ng serve --configuration center-main');
+    expect(config).toContain('mainProject --configuration center-main');
   });
   it('应该修改package.json依赖', async () => {
     let tree = await factory.runSchematic('main-init');
@@ -90,13 +90,13 @@ describe('main-init', () => {
     expect(content).toContain('@center-main/*');
     expect(content).toContain('projects/main-project/src/*');
   });
-  it('应该添加index.center-dll.html', async () => {
+  it('应该添加index.center-main.html', async () => {
     let dllName = 'mainTest';
     let tree = await factory.runSchematic('main-init', { dllName });
     let angularJsonContent = tree.read('angular.json')?.toString();
     expect(angularJsonContent).toContain(`${strings.dasherize(dllName)}.js`);
     let htmlContent = tree
-      .read('projects/main-project/src/index.center-dll.html')
+      .read('projects/main-project/src/index.center-main.html')
       ?.toString()!;
     expect(htmlContent).toContain(`./${strings.dasherize(dllName)}.js`);
     let selector = createCssSelectorForHtml(htmlContent);

@@ -1,6 +1,7 @@
 import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
 import { RunSchematics } from '../../types';
+import { getMainProject } from '../../util/rule';
 
 export class AddTypings implements RunSchematics {
   readonly declaration = `
@@ -32,11 +33,8 @@ declare function loadRemoteModuleManifest(config: {
       let workspace: WorkspaceSchema = JSON.parse(
         tree.read('angular.json')!.toString()
       );
-      let projectName = this.options.projectName || workspace.defaultProject!||
-      Object.keys(workspace.projects).length == 1
-        ? Object.keys(workspace.projects)[0]
-        : '';;
-      
+      let projectName = getMainProject(tree, this.options.projectName!);
+
       let sourceRoot: string;
       if (workspace.projects[projectName].sourceRoot) {
         sourceRoot = workspace.projects[projectName].sourceRoot;

@@ -10,9 +10,9 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { RunSchematics } from '../../types';
-import { strings } from "@angular-devkit/core";
+import { strings } from '@angular-devkit/core';
 import { WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
-import { relative } from "path";
+import { getMainProject } from '../../util/rule';
 export class AddWebpackConfig implements RunSchematics {
   constructor(private options: MainInitSchematics) {}
   run(): Rule {
@@ -20,10 +20,7 @@ export class AddWebpackConfig implements RunSchematics {
       let workspace: WorkspaceSchema = JSON.parse(
         tree.read('angular.json')!.toString()
       );
-      let projectName = this.options.projectName! || workspace.defaultProject!||
-      Object.keys(workspace.projects).length == 1
-        ? Object.keys(workspace.projects)[0]
-        : '';;
+      let projectName = getMainProject(tree, this.options.projectName!);
       let sourceRoot = workspace.projects[projectName].sourceRoot;
 
       return mergeWith(

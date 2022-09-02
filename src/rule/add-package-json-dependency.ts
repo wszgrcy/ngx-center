@@ -53,7 +53,7 @@ export class AddPackageJsonDependency implements RunSchematics {
         {
           type: NodeDependencyType.Dev,
           name: 'webpack-ng-dll-plugin',
-          version: '2.3.0',
+          version: '2.3.1',
         },
         {
           type: NodeDependencyType.Dev,

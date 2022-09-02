@@ -29,7 +29,7 @@
 
 | ngx-center 版本 | Angular 版本 | webpack-ng-dll-plugin 版本 |
 | --------------- | ------------ | -------------------------- |
-| 0.3.0           | 14.2.1       | 2.3.0                      |
+| 0.3.0           | 14.2.1       | 2.3.1                      |
 | 0.2.5           | 12.2.0       | 2.2.2                      |
 | 0.2.3           | 12.0.3       |
 | 0.1.1           | 10-11        |
@@ -173,7 +173,7 @@ declare interface SubSchematics {
    */
   name: string;
   /**
-   * 主项目的名字(默认defaultProject)
+   * 主项目的名字
    */
   mainProjectName?: string;
   /**
